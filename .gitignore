@@ -1,3 +1,8 @@
+# Project-specific
+__DUMP
+# You have to download json2.min.js from cdnjs.com
+json2.min.js
+
 # Logs
 logs
 *.log
