@@ -3,19 +3,24 @@
 
 var layers = app.activeDocument.layers;
 var catalogue = {};
-var i = 0;
+var i = 0; var tempArray = [];
 
 function catalogizeNamedChildren(parentCatalogue, parent, lastIndex){
     var pathItems = parent.pathItems;
     if (pathItems.length>0) {
+        tempArray=[];
         for (i=0;i<pathItems.length;i++) {
-            parentCatalogue.pathItems.push(pathItems[i].name);
+            if (pathItems[i].name || pathItems[i].name!='') {
+                tempArray.push(pathItems[i].name);
+            }
+            if (tempArray.length>0) {parentCatalogue.pathItems=JSON.parse(JSON.stringify(tempArray))}
         }
     }
     var groupItems = parent.groupItems;
     if (groupItems.length>0) {
+        parentCatalogue.groupItems={};
         for (i=0;i<groupItems.length;i++) {
-            parentCatalogue.groupItems[groupItems[i].name] = {groupItems:{}, pathItems:[], };
+            parentCatalogue.groupItems[groupItems[i].name] = {};
             catalogizeNamedChildren(parentCatalogue.groupItems[groupItems[i].name], groupItems[i],i);
         }
     }
@@ -25,10 +30,10 @@ function catalogizeNamedChildren(parentCatalogue, parent, lastIndex){
 alert(layers.length);
 for (i=0;i<layers.length;i++) {
     layer = layers[i];
-    catalogue[layer.name] = {groupItems:{}, pathItems:[],};
+    catalogue[layer.name] = {};
     catalogizeNamedChildren(catalogue[layer.name],layer,i);
-    alert(layer.name);
-    alert(i);
+    //alert(layer.name);
+    //alert(i);
 }
 
 // https://gist.github.com/ltfschoen/79ab3e98723e61660117
