@@ -1,4 +1,5 @@
 //https://stackoverflow.com/questions/56738640/javascript-adobe-illustrator-json-not-defined-decoding-json-encoded-clipboard
+//@ts-nocheck
 #include 'json2.min.js';
 
 var layers = app.activeDocument.layers;

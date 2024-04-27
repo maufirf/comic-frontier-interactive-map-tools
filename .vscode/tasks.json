@@ -1,0 +1,22 @@
+{
+    "tasks": [
+        {
+            "label": "Typescript Watch",
+            "type": "shell",
+            "command": "npx tsc -w",
+            "problemMatcher": [],
+            "presentation": {
+                "group": "groupA",
+            }
+        },
+        {
+            "label": "Nodemon script: Convert CF18 Webatalog Raw Data",
+            "type": "shell",
+            "command": "npx nodemon ./build/script/convertCF18CatalogRaw.js --ignore out/",
+            "problemMatcher": [],
+            "presentation": {
+                "group": "groupA",
+            }
+        }
+    ]
+}
