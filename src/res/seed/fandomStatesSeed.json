@@ -16,7 +16,8 @@
         "uuid": "ae49757c-045b-4fe8-9d36-3c21ffde261d",
         "code": "genshin_impact",
         "displayName": "Genshin Impact",
-        "abbreviation": "gi",
+        "abbreviation": ["gi"],
+        "namealikes": ["kikir impact","game kikir"],
         "circleSellerUUIDs": [],
         "supersetUUIDs": [
             "6be08756-8199-4e36-86c2-9aa405a7e855"
@@ -27,7 +28,7 @@
         "uuid": "3b7fb58d-aa19-4132-8fc2-f21e4de719c6",
         "code": "honkai_star_rail",
         "displayName": "Honkai: Star Rail",
-        "abbreviation": "hsr",
+        "abbreviation": ["hsr"],
         "regexStr": "(honkai)?\\s*:?\\s*star rail",
         "circleSellerUUIDs": [],
         "supersetUUIDs": [
@@ -39,7 +40,7 @@
         "uuid": "36384faa-0fba-4f89-80bb-e04f72f018e6",
         "code": "tears_of_themis",
         "displayName": "Tears of Themis",
-        "abbreviation": "tot",
+        "abbreviation": ["tot"],
         "circleSellerUUIDs": [],
         "supersetUUIDs": [
             "6be08756-8199-4e36-86c2-9aa405a7e855"
@@ -50,7 +51,7 @@
         "uuid": "3caf54c2-5a71-4741-84db-68e4b9462e5c",
         "code": "honkai_impact_3rd",
         "displayName": "Honkai Impact 3rd",
-        "abbreviation": "hi3",
+        "abbreviation": ["hi3"],
         "circleSellerUUIDs": [],
         "supersetUUIDs": [
             "6be08756-8199-4e36-86c2-9aa405a7e855"
@@ -61,7 +62,7 @@
         "uuid": "2447ad84-3843-4dd2-b353-faf646dc59a3",
         "code": "arknights",
         "displayName": "Arknights",
-        "abbreviation": "ak",
+        "abbreviation": ["ak"],
         "circleSellerUUIDs": [],
         "curated": true
     }

@@ -14,6 +14,9 @@
             "type": "shell",
             "command": "npx nodemon ./build/script/convertCF18CatalogRaw.js --ignore out/",
             "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "presentation": {
                 "group": "groupA",
             }

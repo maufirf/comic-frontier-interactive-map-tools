@@ -2,10 +2,10 @@ import { AttendanceIdentifiers, CommonMapDataInterface } from "./commonTypes";
 
 export interface FandomState extends CommonMapDataInterface {
     uuid: string;
-    displayName: string;
-    abbreviation?: string[];
-    namealikes?: string[];
-    commonTypo?: string[];
+    displayName: string; // proper marketed name, like "Fate/Grand Order"
+    abbreviation?: string[]; // abbreviations, can be complete like 
+    namealikes?: string[]; // a.k.a, aliases, other names this fandom is known as
+    commonTypo?: string[]; // typo, mispellings that people often got
     regexStr?: string; // matches lowercase
     regex?: RegExp;
     circleSellerUUIDs: string[]; // day can be derived from circle later so let's not use AttendanceIdentifiers

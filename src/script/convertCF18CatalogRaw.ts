@@ -10,10 +10,14 @@ import { StandType } from "../lib/types/cfim/standStateTypes";
 import * as fs from 'fs';
 import path from 'path';
 
-// bruh
-const dataJSONRelativePath:string = "../../../src/res/raw/cf18_catalog_raw.json";
+import fandomSeed from "@/src/res/seed/fandomStatesSeed.json";
+import { FandomState } from "../lib/types/cfim/fandomStateTypes";
+const fandomStates = fandomSeed as FandomState[];
 
-const catalog:CF18WebcatalogCircle[] = parseJSONFile(dataJSONRelativePath) as CF18WebcatalogCircle[];
+// bruh
+const dataJSONAbsolutePath:string = path.resolve(__dirname,"../../../src/res/raw/cf18_catalog_raw.json");
+
+const catalog:CF18WebcatalogCircle[] = parseJSONFile(dataJSONAbsolutePath) as CF18WebcatalogCircle[];
 
 const pickingKeys:(keyof CF18WebcatalogCircle)[] = [
     "user_id",
@@ -90,11 +94,38 @@ const commaReplaceRe = /\(|\)|(?<!(fate)|\d+)\s*[\/\\\+]\s*(?!(grand)|(go)|\d+)/
 // Matches commas that are not perceded by open parentheses until its closing
 const commaSplitRe = /,(?![^(]*\))/
 
+/**
+ * Matches strings with at least one characters lazily, enshrouded with either:
+ * - Beginning/end of line
+ * - comma
+ * - Forward/backward slashes that are not:
+ *      - part of branding, like fate/go
+ *      - series number, like Persona 3/4/5
+ */
+const matchRe = /(?<=^|,|(?<!(fate)|\d*)[\\\/](?!(go)|(grand)|\d*)\s*).+?(?=\s*$|,|(?<!(fate)|\d*)[\\\/](?!(go)|(grand)|\d*))/g
+
+const parenthesesContentRe = /(?<=\().+?(?=\))/g;
+const parenthesesParentRe = /(?<=^|,|(?<!(fate)|\d*)[\\\/](?!(go)|(grand)|\d*)\s*)[^\(\),]+?(?=\(.*?\))/g;
+const parenthesesParentAndContentRe = /(?<=^|,|(?<!(fate)|\d*)[\\\/](?!(go)|(grand)|\d*)\s*)[^\(\),]+?\(.*?\)(?!\w+)/g;
+
+const conformFandomString = (fandomString:string, parentFandomString:string|null=null) => {
+    // get 
+}
+
+const caughtParentheses:any[] = [];
+const stringsWithoutParentheses: any[]= [];
+
 const [fandomSellerUUIDs, fandomSellerNames]:({[key:string]:string[]})[] = [{}, {}];
 catalog.forEach((data:CF18WebcatalogCircle)=>{
-    [data.fandom,data.other_fandom].forEach(
+   [data.fandom,data.other_fandom].forEach(
         //https://stackoverflow.com/questions/39647555/how-to-split-string-while-ignoring-portion-in-parentheses
-        fandomString=>fandomString.toLowerCase().replaceAll(
+        fandomString=>{
+            for (const match of fandomString.matchAll(parenthesesParentAndContentRe)) {
+                caughtParentheses.push(match[0]);
+            }
+            stringsWithoutParentheses.push(fandomString.replace(parenthesesParentAndContentRe,""))
+
+            fandomString.toLowerCase().replaceAll(
                 commaReplaceRe
             ,",").split(
                 commaSplitRe
@@ -112,12 +143,14 @@ catalog.forEach((data:CF18WebcatalogCircle)=>{
                     fandomSellerNames[fandom] = [data.name];
                 }
             }
-        )
+        )}
     );
 });
 
 const outDir = path.resolve(__dirname,"../../out");
 
+fs.writeFileSync(`${outDir}/fandomParenthesesOmitted.json`,JSON.stringify(stringsWithoutParentheses,null,4))
+fs.writeFileSync(`${outDir}/fandomParentheses.json`,JSON.stringify(caughtParentheses,null,4))
 fs.writeFileSync(`${outDir}/fandomStringsRaw.json`,JSON.stringify(catalog.map(circle=>[circle.fandom.toLowerCase(),circle.other_fandom.toLowerCase()]).flat(),null,4));
 fs.writeFileSync(`${outDir}/fandomSellerNames.json`,JSON.stringify(fandomSellerNames,null,4));
 fs.writeFileSync(`${outDir}/fandomSellerUUIDs.json`,JSON.stringify(fandomSellerNames,null,4));

@@ -2,10 +2,30 @@
   "devDependencies": {
     "@types/uuid": "^9.0.8",
     "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
   "dependencies": {
     "@types/node": "^20.12.7",
+    "tsconfig-paths": "^4.2.0",
     "uuid": "^9.0.1"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules",
+      "out",
+      "__DUMP"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "node -r tsconfig-paths/register -r ts-node/register ./src/index.ts",
+    "ext": "ts, js"
+  },
+  "scripts": {
+    "dev": "nodemon"
   }
 }
