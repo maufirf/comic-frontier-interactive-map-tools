@@ -18,61 +18,13 @@ import { v4 as uuidv4 } from 'uuid';
 const fandomStates:FandomState[] = fandomSeed.map((fandomState)=>{
     const reinstated = fandomState as FandomState;
     if (fandomState.regexStr) {reinstated.regex = new RegExp(fandomState.regexStr)}
-    return fandomState;
+    return reinstated;
 }) as FandomState[];
 
 // bruh
-const dataJSONAbsolutePath:string = path.resolve(__dirname,"./res/raw/cf18_catalog_raw.json");
+const dataJSONAbsolutePath:string = path.resolve(__dirname,"./res/raw/cf18_catalog_raw_20240429_uuidfix.json");
 
 const catalog:CF18WebcatalogCircle[] = parseJSONFile(dataJSONAbsolutePath) as CF18WebcatalogCircle[];
-
-const pickingKeys:(keyof CF18WebcatalogCircle)[] = [
-    "user_id",
-    "circle_code",
-    "name",
-    "fandom",
-    "other_fandom",
-    "day",
-];
-
-const omittingKeys:(keyof CF18WebcatalogCircle)[] = [
-    "circle_cut",
-    "SellsCommision",
-    "SellsComic",
-    "SellsArtbook",
-    "SellsPhotobookGeneral",
-    "SellsNovel",
-    "SellsGame",
-    "SellsMusic",
-    "SellsGoods",
-    "circle_facebook",
-    "circle_instagram",
-    "circle_twitter",
-    "circle_other_socials",
-    "marketplace_link",
-    "id",
-    "rating",
-    "sampleworks_images",
-    "SellsHandmadeCrafts",
-    "SellsMagazine",
-    "SellsPhotobookCosplay",
-]
-
-const pickedCatalog = catalog.map(
-    circle=>pick<CF18WebcatalogCircle>(circle,...pickingKeys)
-)
-
-const omittedCatalog = catalog.map(
-    circle=>omit<CF18WebcatalogCircle>(circle,...omittingKeys)
-)
-
-
-
-//const exampleCircle = catalog[exampleIndex];
-//const matches = exampleCircle.circle_code.matchAll(circleCodeRe)
-
-//const exampleCircleState:CircleState = convertDataToInstance(exampleCircle);
-
 
 /**
  * Regex Breakdown:
@@ -110,6 +62,26 @@ const parenthesesContentRe = /(?<=\().+?(?=\))/g;
 const parenthesesParentRe = /(?<=^|,|(?<!(fate)|\d*)[\\\/](?!(go)|(grand)|\d*)\s*)[^\(\),]+?(?=\(.*?\))/g;
 const parenthesesParentAndContentRe = /(?<=^|,|(?<!(fate)|\d*)[\\\/](?!(go)|(grand)|\d*)\s*)[^\(\),]+?\(.*?\)(?!\w+)/g;
 
+// matches to at least two commas that don't have any text between each commas.
+// Intended to eliminate the side effect of removing the parentheses and the word
+// preceeding it (which creates a complete gap between to commas), by replacing
+// those orphan commas with just one comma.
+const orphanCommaRe = /(\s*,\s*){2,}/g
+
+// matches to anything that's not:
+// - alphanumerical
+// - underscore
+// Intended to aid creating codenames from display names
+const conformDisplayNameToCodeRe = /[^A-Za-z0-9_+-]/g
+
+// Matches to only strings that only has commas and whitespace in its entirety
+// Intended to cancel making new fandom if the whole fandom name is this
+const onlyCommaRe = /^(\s*,\s*)+$/g
+
+// Matches to commas and whitespaces that are in the trim region (start & end of a string)
+// Intended to substitute the whitespace-only string.trim() function
+const trimRe = /(^[\s,]+)|([\s,]+$)/g
+
 const fandomSearchComposite = {
     fandomStates,
     displayNameArr: fandomStates.map(x=>x.displayName.toLowerCase()),
@@ -123,9 +95,20 @@ const fandomSearchComposite = {
 }
 
 const findFandomConfig = {
+    // Whether to enable Levenshtein search
     levenshteinSearch: true,
-    levenshteinMinChar: 12,
-    levenshteinMaxDiff: 2,
+
+    // these config only relevant if levensthteinSearch===true
+        // The minimum amount of characters a string can be qualified to use levenshtein search
+        levenshteinMinChar: 12,
+        // The maximum levenshtein distance for a string to be deemed "close enough"
+        levenshteinMaxDiff: 2,
+        // Whether to enable levenshtein search on finding groups (abbreviations, common typo, namealikes)
+        levenshteinSearchOnFindingGroups: true,
+
+    // Whether regex should match full or not
+    regexMatchFull: true,
+
 }
 const findFandom = (
     fndmStr:string,
@@ -161,7 +144,10 @@ const findFandom = (
             if (fndmStr!==fandomStates[foundIndex].displayName.toLowerCase()) {
                 if (fandomStates[foundIndex].commonTypo) {
                     // push new common typo if property exists
-                    fandomStates[foundIndex].commonTypo?.push(fndmStr);
+                    // only if the current fandom string isn't already
+                    // in common typo array yet
+                    if (!fandomStates[foundIndex].commonTypo?.includes(fndmStr))
+                        fandomStates[foundIndex].commonTypo?.push(fndmStr);
                 } else {
                     // otherwise instantiate the property with [fndmStr] as value
                     fandomStates[foundIndex].commonTypo = [fndmStr];
@@ -183,36 +169,63 @@ const findFandom = (
     // if still not found, find by the finding groups of
     //abbreviation, namealikes, and common typo
     [abbreviationArr,namealikesArr,commonTypoArr].forEach((findingGroup)=>{
-        if (foundIndex>=0) return;
         foundIndex = findingGroup.findIndex(fgStr=>
             fgStr?
             //fgStr?.includes(fndmStr)
-            (config.levenshteinSearch && fndmStr.length>=config.levenshteinMinChar?
+            (
+                config.levenshteinSearch &&
+                config.levenshteinSearchOnFindingGroups &&
+                fndmStr.length>=config.levenshteinMinChar
+                ?
                 // fg refers to findingGroup's each string
                 // search if levenshteinSearch is true
-                fgStr.some((fg)=>levenshtein(fg,fndmStr)<=config.levenshteinMaxDiff):
+                fgStr.some((fg)=>levenshtein(fg,fndmStr)<=config.levenshteinMaxDiff)
                 // otherwise just find exact match
+                :
                 fgStr.includes(fndmStr)
             ):
             // return false if there if findingGroup has no content.
             false);
+        if (foundIndex>=0) return [
+            fandomStates[foundIndex],
+            foundIndex,
+        ];
     });
-    if (foundIndex>=0) return [
-        fandomStates[foundIndex],
-        foundIndex,
-    ];
 
     // if still again not found, find by the regex
-    foundIndex = regexArr.findIndex(re=>
+    foundIndex = regexArr.findIndex(re=>{
         // if fandom has regex
-        re?
-        (fndmStr.match(re)?true:false):
-        false
-    );
-    if (foundIndex>=0) return [
-        fandomStates[foundIndex],
-        foundIndex,
-    ];
+        if (re) {
+            if (config.regexMatchFull) {
+                return ((fndmStr.match(new RegExp(`^${re.source}$`)))?true:false)
+            } else {
+                return fndmStr.match(re)?true:false
+            }
+        } else {
+            return false 
+        };
+    });
+    if (foundIndex>=0) {
+        // regex searches shouldn't just return the found
+        // fandomState, but also update the fandomState's
+        // commonTypo property
+        if (fndmStr!==fandomStates[foundIndex].displayName.toLowerCase()) {
+            if (fandomStates[foundIndex].commonTypo) {
+                // push new common typo if property exists
+                // only if the current fandom string isn't already
+                // in common typo array yet
+                if (!fandomStates[foundIndex].commonTypo?.includes(fndmStr))
+                    fandomStates[foundIndex].commonTypo?.push(fndmStr);
+            } else {
+                // otherwise instantiate the property with [fndmStr] as value
+                fandomStates[foundIndex].commonTypo = [fndmStr];
+            }
+        }
+        return [
+            fandomStates[foundIndex],
+            foundIndex,
+        ]
+    ;}
 
     // my brother you have fallen
     return  [
@@ -227,10 +240,14 @@ const registerNewFandom = (
     parentFandomStateIndex: number|null = null,
     sellerUUID?: string,
 ) => {
+    // don't initiate if the fandomString is only commas
+    if (fandomString.match(onlyCommaRe)?true:false) return;
+
     // instantiate the new fandom
     const newFandomState:FandomState = {
         uuid: uuidv4(),
-        displayName: fandomString,
+        code: fandomString.toLowerCase().replace(conformDisplayNameToCodeRe,"_"),
+        displayName: fandomString.split(" ").map(str=>`${str.charAt(0).toUpperCase()}${str.slice(1)}`).join(" "),
         circleSellerUUIDs:sellerUUID?[sellerUUID]:[],
     }
 
@@ -274,7 +291,6 @@ const processFandomString = (
     circleUUID:string,
     parentFandomStateIndex: number|null=null
 ) => {
-    console.log(fandomString);
     // === 1. PROCESS STRING THAT HAS NO PARENTHESES ====
     // e.g
     // "genshin, honkai, idol (jkt48, 22/7), call of duty, indie vtuber indonesia (Ethel Chamomile, Kragono)"
@@ -284,29 +300,33 @@ const processFandomString = (
 
     // get all instances without parentheses and their parents
     const parenthesesStripped = fandomString.replace(parenthesesParentAndContentRe,"");
-    console.log(parenthesesStripped);
     // get all matches from stripped string
     const strippedMatches = Array.from(parenthesesStripped.matchAll(matchRe)).map(
-        match=>match[0].trim()
+        match=>match[0].replace(trimRe,"")
     );
     // process each match
     strippedMatches.forEach(match=>{
-        console.log(match.replace(",",""));
         const [_, i] = findFandom(
-            match.replace(",","").trim(),
+            match.replace(",","").replace(trimRe,""),
             fsc,
             findFandomConfig
         )
         // If a fandomState for such fandom exist,
         if (i>=0) {
-            // push the circleUUId to the parent's circleSellerUUIDs.
+            // push the circleUUId to the circleSellerUUIDs.
             fsc.fandomStates[i].circleSellerUUIDs.push(circleUUID);
             // consider if this fandomState also has parent
             if (parentFandomStateIndex) {                
                 // if the new fandomState has predefined parent:
-                // 1. add the parent's UUID to the new fandomState's supersetUUIDs
+                // 1. add the parent's UUID to the current fandomState's supersetUUIDs
+                // check if current fandomState has supersetUUIDs property
                 if (fsc.fandomStates[i].supersetUUIDs) {
-                    fsc.fandomStates[i].supersetUUIDs?.push(fsc.fandomStates[parentFandomStateIndex].uuid);
+                    // only add if new fandomState.supersetUUIDs dont have parent's UUID
+                    if (!fsc.fandomStates[i].supersetUUIDs?.includes(
+                        fsc.fandomStates[parentFandomStateIndex].uuid
+                    )) fsc.fandomStates[i].supersetUUIDs?.push(
+                        fsc.fandomStates[parentFandomStateIndex].uuid
+                    );
                 } else {
                     fsc.fandomStates[i].supersetUUIDs = [fsc.fandomStates[parentFandomStateIndex].uuid];
                 }
@@ -314,7 +334,12 @@ const processFandomString = (
                 // check if the parent already has subsetUUIDs property
                 if (fsc.fandomStates[parentFandomStateIndex].subsetUUIDs) {
                     // if the parent has subsetUUIDs property, add the new fandomState UUID there
-                    fsc.fandomStates[parentFandomStateIndex].subsetUUIDs?.push(fsc.fandomStates[i].uuid);
+                    // only add if new fandomState.supersetUUIDs dont have parent's UUID
+                    if (!fsc.fandomStates[parentFandomStateIndex].subsetUUIDs?.includes(
+                        fsc.fandomStates[i].uuid
+                    )) fsc.fandomStates[parentFandomStateIndex].subsetUUIDs?.push(
+                        fsc.fandomStates[i].uuid
+                    );
                 } else {
                     // otherwise just instantate with [newFandomState.uuid] as the value
                     fsc.fandomStates[parentFandomStateIndex].subsetUUIDs = [fsc.fandomStates[i].uuid];
@@ -327,9 +352,7 @@ const processFandomString = (
                 parentFandomStateIndex&&parentFandomStateIndex>=0?parentFandomStateIndex:null,
                 circleUUID,
             );
-            console.log(fsc.fandomStates[fsc.fandomStates.length-1]);
         }
-        console.log(i>=0?fsc.fandomStates[i]:undefined);
     });
 
     // === 2. PROCESS STRING THAT HAS PARENTHESES WITH ITS PRECEEDING TOKEN ====
@@ -345,19 +368,14 @@ const processFandomString = (
     Array.from(
         fandomString.matchAll(parenthesesParentAndContentRe)
     ).map(match=>{
-        const conformedMatch = match[0].
-        trim();
+        const conformedMatch = match[0].replace(trimRe,"");
         return [
             // index 0 = children string
-            ensure<RegExpMatchArray>(conformedMatch.match(parenthesesContentRe))[0].trim(),
+            ensure<RegExpMatchArray>(conformedMatch.match(parenthesesContentRe))[0].replace(trimRe,""),
             // index 1 = parent string
-            ensure<RegExpMatchArray>(conformedMatch.match(parenthesesParentRe))[0].replace(',','').trim(),
+            ensure<RegExpMatchArray>(conformedMatch.match(parenthesesParentRe))[0].replace(',','').replace(trimRe,""),
         ]
     }).forEach(([childrenString,parentString])=>{
-        console.log({
-            childrenString,
-            parentString,
-        })
         // find parent's index if fandomStance instance exists
         var [_, parentIndex] = findFandom(
             parentString,
@@ -368,16 +386,17 @@ const processFandomString = (
         // fandomSearchComposite.fandomStates position is going to be
         // new parent's FandomState's future index, then actually
         // register them.
-        parentIndex = fsc.fandomStates.length;
-        registerNewFandom(
-            parentString,
-            fsc,
-            null,
-            circleUUID
-        );
-        console.log(fsc.fandomStates[parentIndex]);
+        if (parentIndex<0) {
+            parentIndex = fsc.fandomStates.length;
+            registerNewFandom(
+                parentString,
+                fsc,
+                null,
+                circleUUID
+            );
+        }
         processFandomString(
-            childrenString,
+            childrenString.replace(orphanCommaRe,","),
             fsc,
             circleUUID,
             parentIndex,
@@ -464,12 +483,34 @@ console.log(JSON.stringify(
     )
 ,null,4));
 */
-processFandomString(
-    //catalog[21].other_fandom.toLowerCase(),
-    "Gemshi Impact, Honkia star rail, kpop(Super Junior, BTS), call of duty, identity v".toLowerCase(),
-    fandomSearchComposite,
-    //catalog[21].user_id,
-    uuidv4(),
-)
+catalog.forEach((circle,i)=>{
+    processFandomString(
+        circle.fandom.toLowerCase(),
+        fandomSearchComposite,
+        circle.user_id,
+    );
+    processFandomString(
+        circle.other_fandom.toLowerCase(),
+        fandomSearchComposite,
+        circle.user_id,
+    );
+    console.log(`Processed ${i+1}/${catalog.length}`);
+})
 const outDir = path.resolve(__dirname,"../out");
 fs.writeFileSync(`${outDir}/fandomStates.json`,JSON.stringify(fandomSearchComposite.fandomStates,null,4));
+fs.writeFileSync(`${outDir}/fandomSellerCounts.json`,JSON.stringify(
+    Object.fromEntries(fandomSearchComposite.fandomStates.map(
+        (fandom):[string,number]=>[
+        fandom.displayName,
+        fandom.circleSellerUUIDs.length
+    ]).sort((a,b)=>b[1]-a[1]))
+,null,4))
+
+console.log("JUARA SATU BANYAK VARIASI KETIK TERBANYAK JATUH KEPADA")
+console.log(
+    fandomSearchComposite.fandomStates
+    .map(fandom=>fandom.commonTypo) // map and get common typo array from each fandom
+    .filter(commonTypo=>commonTypo) // filter out ones that are undefined
+    .map(commonTypo=>ensure<string[]>(commonTypo)) // map and ensure each commonTypo arr
+    .sort((a:string[],b:string[])=>b.length-a.length)[0]
+)
