@@ -1,5 +1,17 @@
 [
     {
+        "uuid": "da984b9b-409c-42ff-b116-838fd522a071",
+        "code": "original",
+        "displayName": "Original",
+        "regexStr": "originals?(\\s*(((art)?(work)?)|(chara(cter)?)|(webtoon)|(handmade)|(craft)|(doujin)|(merch)|(good))s?)*",
+        "circleSellerUUIDs": [],
+        "curated": true
+    },
+
+
+
+
+    {
         "uuid": "6be08756-8199-4e36-86c2-9aa405a7e855",
         "code": "hoyoverse",
         "displayName": "Hoyoverse",
@@ -18,6 +30,7 @@
         "displayName": "Genshin Impact",
         "abbreviation": ["gi"],
         "namealikes": ["kikir impact","game kikir"],
+        "regexStr": "genshin\\s*(impact)?",
         "circleSellerUUIDs": [],
         "supersetUUIDs": [
             "6be08756-8199-4e36-86c2-9aa405a7e855"
@@ -29,7 +42,7 @@
         "code": "honkai_star_rail",
         "displayName": "Honkai: Star Rail",
         "abbreviation": ["hsr"],
-        "regexStr": "(honkai)?\\s*:?\\s*star rail",
+        "regexStr": "(honkai)?\\s*:?\\s*star ?rail",
         "circleSellerUUIDs": [],
         "supersetUUIDs": [
             "6be08756-8199-4e36-86c2-9aa405a7e855"
@@ -52,18 +65,121 @@
         "code": "honkai_impact_3rd",
         "displayName": "Honkai Impact 3rd",
         "abbreviation": ["hi3"],
+        "regexStr": "honkai\\s*(impact\\s*(3(rd)?)?)?",
         "circleSellerUUIDs": [],
         "supersetUUIDs": [
             "6be08756-8199-4e36-86c2-9aa405a7e855"
         ],
         "curated": true
     },
+
+
+
+
     {
         "uuid": "2447ad84-3843-4dd2-b353-faf646dc59a3",
         "code": "arknights",
         "displayName": "Arknights",
         "abbreviation": ["ak"],
         "circleSellerUUIDs": [],
+        "curated": true
+    },
+    {
+        "uuid": "8cec63d6-78d1-4238-99e6-362ddfc9611b",
+        "code": "jojo_s_bizarre_adventure",
+        "displayName": "Jojo's Bizarre Adventure",
+        "abbreviation": ["jjba"],
+        "regexStr": "jojo('s)?\\s*(bizarre adventure)?",
+        "circleSellerUUIDs": [],
+        "curated": true
+    },
+    {
+        "uuid": "b9367dcd-2fc2-48d2-88e8-234c55135a4c",
+        "code": "call_of_duty",
+        "displayName": "Call of Duty",
+        "abbreviation": ["cod"],
+        "regexStr": "",
+        "circleSellerUUIDs": [],
+        "curated": true
+    },
+    {
+        "uuid": "fc0ca768-3fbc-4055-bc9e-f72ac11be5ba",
+        "code": "final_fantasy",
+        "displayName": "Final Fantasy",
+        "abbreviation": ["ff","ffxiv","ff14","ff16","ffxvi"],
+        "regexStr": "(ff|final fantasy)\\s*(xiv|xvi|\\d*)?",
+        "circleSellerUUIDs": [],
+        "curated": true
+    },
+    {
+        "uuid": "f5f8110f-6451-43da-8527-1186d0fe33d7",
+        "code": "fate_grand_order",
+        "displayName": "Fate/Grand Order",
+        "abbreviation": ["fgo","f/go","fate/go"],
+        "regexStr": "(fate|f)(\/|\\s*)(grand order|go)?",
+        "circleSellerUUIDs": [],
+        "curated": true
+    },
+    {
+        "uuid": "06b6fda7-4cf6-4905-a2bb-686ff508344e",
+        "code": "undertale",
+        "displayName": "Undertale",
+        "namealikes": ["deltarune"],
+        "circleSellerUUIDs": [],
+        "curated": true
+    },
+
+
+
+
+    {
+        "uuid": "5a1411b1-c030-45eb-8460-6d03f7348334",
+        "code": "virtual_youtuber",
+        "displayName": "Virtual Youtuber",
+        "abbreviation": ["vtuber"],
+        "regexStr": "(indie|en|english|indonesia(n?))?\\s*v(irtual)?\\s*(you)?tubers?\\s*(indonesia(n?)|group|indie)?",
+        "circleSellerUUIDs": [],
+        "subsetUUIDs": [
+            "322186d9-9fb7-462a-b162-98e3b24ea370",
+            "d6ddd433-4bf6-4c22-8777-a4f76685fc80",
+            "533032a5-7d15-4ec0-a7d7-1f4fc6379107"
+        ],
+        "curated": true
+    },
+    {
+        "uuid": "322186d9-9fb7-462a-b162-98e3b24ea370",
+        "code": "hololive_production",
+        "displayName": "Hololive Production",
+        "abbreviation": ["holo","hololive","holopro"],
+        "regexStr": "(holo)\\s*(live)?(\\s|-)*((en(glish)?|i(n)?d(onesia)?|j(a)?p(an)?)|((pro)?d?(uction)?)|[\\s&]*)*",
+        "circleSellerUUIDs": [],
+        "supersetUUIDs": [
+            "5a1411b1-c030-45eb-8460-6d03f7348334"
+        ],
+        "curated": true
+    },
+    {
+        "uuid": "d6ddd433-4bf6-4c22-8777-a4f76685fc80",
+        "code": "holostars",
+        "displayName": "HOLOSTARS",
+        "abbreviation": ["holo","hololive","holopro"],
+        "regexStr": "(holo)\\s*(live)?(\\s|-)*((((en(glish)?|i(n)?d(onesia)?|j(a)?p(an)?))|((pro)?d?(uction)?))\\s*)*",
+        "circleSellerUUIDs": [],
+        "supersetUUIDs": [
+            "5a1411b1-c030-45eb-8460-6d03f7348334"
+        ],
+        "curated": true
+    },
+    {
+        "uuid": "533032a5-7d15-4ec0-a7d7-1f4fc6379107",
+        "code": "nijisanji",
+        "displayName": "Nijisanji",
+        "abbreviation": ["niji","2434"],
+        "regexStr": "niji(sanji)?[\\s-]*(((en(glish)?|i(n)?d(onesia)?|j(a)?p(an)?|k(o)?r(ea)?))|[\\s&]*)*",
+        "circleSellerUUIDs": [],
+        "supersetUUIDs": [
+            "5a1411b1-c030-45eb-8460-6d03f7348334"
+        ],
         "curated": true
     }
 ]
