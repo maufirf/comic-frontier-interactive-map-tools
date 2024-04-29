@@ -56,7 +56,7 @@ const commaSplitRe = /,(?![^(]*\))/
  *      - part of branding, like fate/go
  *      - series number, like Persona 3/4/5
  */
-const matchRe = /(?<=^|,|(?<!(fate)|\d*)[\\\/](?!(go)|(grand)|\d*)\s*).+?(?=\s*$|,|(?<!(fate)|\d*)[\\\/](?!(go)|(grand)|\d*))/g
+const matchRe = /(?<=(^|,|(?<!(fate)|\d)\s*[\\\/]\s*(?!(g(rand|o))|\d))).*?(?=(,|(?<!(fate)|\d)\s*[\\\/]\s*(?!(g(rand|o))|\d))|$)/g
 
 const parenthesesContentRe = /(?<=\().+?(?=\))/g;
 const parenthesesParentRe = /(?<=^|,|(?<!(fate)|\d*)[\\\/](?!(go)|(grand)|\d*)\s*)[^\(\),]+?(?=\(.*?\))/g;
@@ -121,7 +121,8 @@ const findFandom = (
         regexArr,
         uuidIndex,
     }:typeof fandomSearchComposite,
-    config:typeof findFandomConfig
+    config:typeof findFandomConfig,
+    circleUUID?: string,
 ):[
     fandomState:FandomState|undefined,
     fandomStateIndex:number,
@@ -160,37 +161,43 @@ const findFandom = (
         }
     } else {
         foundIndex = displayNameArr.findIndex(dn=>dn.toLowerCase()===fndmStr);
-        if (foundIndex>=0) return [
-            fandomStates[foundIndex],
-            foundIndex,
-        ];
+        if (foundIndex>=0) {
+            return [
+                fandomStates[foundIndex],
+                foundIndex,
+            ]
+        };
     }
 
     // if still not found, find by the finding groups of
     //abbreviation, namealikes, and common typo
-    [abbreviationArr,namealikesArr,commonTypoArr].forEach((findingGroup)=>{
-        foundIndex = findingGroup.findIndex(fgStr=>
-            fgStr?
-            //fgStr?.includes(fndmStr)
-            (
-                config.levenshteinSearch &&
-                config.levenshteinSearchOnFindingGroups &&
-                fndmStr.length>=config.levenshteinMinChar
-                ?
-                // fg refers to findingGroup's each string
-                // search if levenshteinSearch is true
-                fgStr.some((fg)=>levenshtein(fg,fndmStr)<=config.levenshteinMaxDiff)
-                // otherwise just find exact match
-                :
-                fgStr.includes(fndmStr)
-            ):
-            // return false if there if findingGroup has no content.
-            false);
-        if (foundIndex>=0) return [
-            fandomStates[foundIndex],
-            foundIndex,
-        ];
+    [abbreviationArr,namealikesArr,commonTypoArr].every((findingGroup)=>{
+        foundIndex = findingGroup.findIndex(fgStr=>{
+            if (fgStr)  {
+                
+                if (
+                    config.levenshteinSearch &&
+                    config.levenshteinSearchOnFindingGroups &&
+                    fndmStr.length>=config.levenshteinMinChar
+                ) {
+                    // fg refers to findingGroup's each string
+                    // search if levenshteinSearch is true
+                    return fgStr.some((fg)=>levenshtein(fg,fndmStr)<=config.levenshteinMaxDiff)
+                } else {
+                    // otherwise just find exact match
+                    return fgStr.includes(fndmStr)
+                }
+            } else {
+                // return false if there if findingGroup has no content.
+                return false
+            }
+        });
+        return foundIndex<0
     });
+    if (foundIndex>=0) return [
+        fandomStates[foundIndex],
+        foundIndex
+    ]
 
     // if still again not found, find by the regex
     foundIndex = regexArr.findIndex(re=>{
@@ -307,10 +314,12 @@ const processFandomString = (
     // process each match
     strippedMatches.forEach(match=>{
         const [_, i] = findFandom(
-            match.replace(",","").replace(trimRe,""),
+            match.replace(",","").replace(trimRe,"").toLowerCase(),
             fsc,
-            findFandomConfig
+            findFandomConfig,
+            circleUUID,
         )
+        if (circleUUID==="730d956f-de5c-4979-8f8d-f50aadeb36de") (console.log(i, match.replace(",","").replace(trimRe,"").toLowerCase()));
         // If a fandomState for such fandom exist,
         if (i>=0) {
             // push the circleUUId to the circleSellerUUIDs.
@@ -347,7 +356,7 @@ const processFandomString = (
             }
         } else {
             registerNewFandom(
-                match,
+                match.replace(",","").replace(trimRe,"").toLowerCase(),
                 fsc,
                 parentFandomStateIndex&&parentFandomStateIndex>=0?parentFandomStateIndex:null,
                 circleUUID,
@@ -378,7 +387,7 @@ const processFandomString = (
     }).forEach(([childrenString,parentString])=>{
         // find parent's index if fandomStance instance exists
         var [_, parentIndex] = findFandom(
-            parentString,
+            parentString.toLowerCase(),
             fsc,
             findFandomConfig,
         )
@@ -506,11 +515,11 @@ fs.writeFileSync(`${outDir}/fandomSellerCounts.json`,JSON.stringify(
     ]).sort((a,b)=>b[1]-a[1]))
 ,null,4))
 
-console.log("JUARA SATU BANYAK VARIASI KETIK TERBANYAK JATUH KEPADA")
+console.log("TOP 3 BANYAK VARIASI KETIK TERBANYAK JATUH KEPADA")
 console.log(
     fandomSearchComposite.fandomStates
     .map(fandom=>fandom.commonTypo) // map and get common typo array from each fandom
     .filter(commonTypo=>commonTypo) // filter out ones that are undefined
     .map(commonTypo=>ensure<string[]>(commonTypo)) // map and ensure each commonTypo arr
-    .sort((a:string[],b:string[])=>b.length-a.length)[0]
+    .sort((a:string[],b:string[])=>b.length-a.length).slice(0,3)
 )
