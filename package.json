@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@types/single-line-log": "^1.1.2",
     "@types/uuid": "^9.0.8",
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
@@ -7,6 +8,7 @@
   },
   "dependencies": {
     "@types/node": "^20.12.7",
+    "single-line-log": "^1.1.2",
     "tsconfig-paths": "^4.2.0",
     "uuid": "^9.0.1"
   },

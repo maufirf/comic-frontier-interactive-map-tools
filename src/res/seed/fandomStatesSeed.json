@@ -5,7 +5,7 @@
         "displayName": "Original",
         "regexStr": "originals?(\\s*(((art)?(work)?)|(chara(cter)?)|(webtoon)|(handmade)|(craft)|(doujin)|(merch)|(good))s?)*",
         "circleSellerUUIDs": [],
-        "curated": true
+        "curatedCFIM": true
     },
 
 
@@ -22,7 +22,7 @@
             "3b7fb58d-aa19-4132-8fc2-f21e4de719c6",
             "36384faa-0fba-4f89-80bb-e04f72f018e6"
         ],
-        "curated": true
+        "curatedCFIM": true
     },
     {
         "uuid": "ae49757c-045b-4fe8-9d36-3c21ffde261d",
@@ -35,7 +35,7 @@
         "supersetUUIDs": [
             "6be08756-8199-4e36-86c2-9aa405a7e855"
         ],
-        "curated": true
+        "curatedCFIM": true
     },
     {
         "uuid": "3b7fb58d-aa19-4132-8fc2-f21e4de719c6",
@@ -47,7 +47,7 @@
         "supersetUUIDs": [
             "6be08756-8199-4e36-86c2-9aa405a7e855"
         ],
-        "curated": true
+        "curatedCFIM": true
     },
     {
         "uuid": "36384faa-0fba-4f89-80bb-e04f72f018e6",
@@ -58,7 +58,7 @@
         "supersetUUIDs": [
             "6be08756-8199-4e36-86c2-9aa405a7e855"
         ],
-        "curated": true
+        "curatedCFIM": true
     },
     {
         "uuid": "3caf54c2-5a71-4741-84db-68e4b9462e5c",
@@ -70,7 +70,7 @@
         "supersetUUIDs": [
             "6be08756-8199-4e36-86c2-9aa405a7e855"
         ],
-        "curated": true
+        "curatedCFIM": true
     },
 
 
@@ -82,7 +82,7 @@
         "displayName": "Arknights",
         "abbreviation": ["ak"],
         "circleSellerUUIDs": [],
-        "curated": true
+        "curatedCFIM": true
     },
     {
         "uuid": "8cec63d6-78d1-4238-99e6-362ddfc9611b",
@@ -91,7 +91,7 @@
         "abbreviation": ["jjba"],
         "regexStr": "jojo('s)?\\s*(bizarre adventure)?",
         "circleSellerUUIDs": [],
-        "curated": true
+        "curatedCFIM": true
     },
     {
         "uuid": "b9367dcd-2fc2-48d2-88e8-234c55135a4c",
@@ -100,7 +100,7 @@
         "abbreviation": ["cod"],
         "regexStr": "",
         "circleSellerUUIDs": [],
-        "curated": true
+        "curatedCFIM": true
     },
     {
         "uuid": "fc0ca768-3fbc-4055-bc9e-f72ac11be5ba",
@@ -109,7 +109,7 @@
         "abbreviation": ["ff","ffxiv","ff14","ff16","ffxvi"],
         "regexStr": "(ff|final fantasy)\\s*(xiv|xvi|\\d*)?",
         "circleSellerUUIDs": [],
-        "curated": true
+        "curatedCFIM": true
     },
     {
         "uuid": "f5f8110f-6451-43da-8527-1186d0fe33d7",
@@ -118,7 +118,7 @@
         "abbreviation": ["fgo","f/go","fate/go"],
         "regexStr": "(fate|f)(\/|\\s*)(grand order|go)?",
         "circleSellerUUIDs": [],
-        "curated": true
+        "curatedCFIM": true
     },
     {
         "uuid": "06b6fda7-4cf6-4905-a2bb-686ff508344e",
@@ -126,7 +126,7 @@
         "displayName": "Undertale",
         "namealikes": ["deltarune"],
         "circleSellerUUIDs": [],
-        "curated": true
+        "curatedCFIM": true
     },
 
 
@@ -144,7 +144,7 @@
             "d6ddd433-4bf6-4c22-8777-a4f76685fc80",
             "533032a5-7d15-4ec0-a7d7-1f4fc6379107"
         ],
-        "curated": true
+        "curatedCFIM": true
     },
     {
         "uuid": "322186d9-9fb7-462a-b162-98e3b24ea370",
@@ -156,19 +156,17 @@
         "supersetUUIDs": [
             "5a1411b1-c030-45eb-8460-6d03f7348334"
         ],
-        "curated": true
+        "curatedCFIM": true
     },
     {
         "uuid": "d6ddd433-4bf6-4c22-8777-a4f76685fc80",
         "code": "holostars",
         "displayName": "HOLOSTARS",
-        "abbreviation": ["holo","hololive","holopro"],
-        "regexStr": "(holo)\\s*(live)?(\\s|-)*((((en(glish)?|i(n)?d(onesia)?|j(a)?p(an)?))|((pro)?d?(uction)?))\\s*)*",
         "circleSellerUUIDs": [],
         "supersetUUIDs": [
             "5a1411b1-c030-45eb-8460-6d03f7348334"
         ],
-        "curated": true
+        "curatedCFIM": true
     },
     {
         "uuid": "533032a5-7d15-4ec0-a7d7-1f4fc6379107",
@@ -180,6 +178,6 @@
         "supersetUUIDs": [
             "5a1411b1-c030-45eb-8460-6d03f7348334"
         ],
-        "curated": true
+        "curatedCFIM": true
     }
 ]

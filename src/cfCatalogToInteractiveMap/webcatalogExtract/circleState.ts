@@ -25,17 +25,17 @@ export const dissectCodeToDayAttendance = (circleCodeString:string):AttendanceId
     const [codeGroup,dayGroup] = circleCodeString.split(" ");
     const codes = codeGroup.split("/");
     const codesProcessed = codes.map(
-        code => code.match(/(([A-Za-z]{1})|([A-Za-z]{2}))-(\d{1,2})(a)?(b)?/)
+        code => Array.from(code.matchAll(/(([A-Za-z]{1})|([A-Za-z]{2}))-(\d{1,2})(a)?(b)?/g))[0]
     ).map(match => {
         const ensuredMatch = ensure<RegExpMatchArray>(match);
         const type:StandType = ensuredMatch[2]? "circle" : "circlepro";
         const isCircle = type==="circle";
-        const block = ensuredMatch[2]? ensuredMatch[2] : ensuredMatch[3]
+        const block = isCircle? ensuredMatch[2].toUpperCase() : `${ensuredMatch[3].charAt(0).toUpperCase()}${ensuredMatch[3].charAt(1).toLowerCase()}`
         const number = +ensuredMatch[4];
         const outCircleTemp = []
         if (isCircle) {
             if (ensuredMatch[5]) outCircleTemp.push("a");
-            if (ensuredMatch[6]) outCircleTemp.push("a");
+            if (ensuredMatch[6]) outCircleTemp.push("b");
             return outCircleTemp.map(subCode=>`${block}-${number}${subCode}`);
         } else {
             return `${block}-${number}`;
@@ -62,4 +62,5 @@ export const convertDataToInstance = (data:CFWebcatalogCircle):CircleState => ({
     displayName: data.name,
     fandoms: [data.fandom,data.other_fandom],
     standAttendanceCodes: dissectCodeToDayAttendance(data.circle_code),
+    fandomUUIDs: [],
 })

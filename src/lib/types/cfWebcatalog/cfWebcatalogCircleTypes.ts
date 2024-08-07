@@ -1,5 +1,7 @@
 export type CFWebcatalogCircleLink = string | null;
 
+export type CFWebcatalogCircleLinks = string[] | null;
+
 export type CFWebcatalogCircleFandom = string | "-";
 
 export type CFWebcatalogCircleRating = "PG" | "GA" | "M";
@@ -28,7 +30,7 @@ export interface CFWebcatalogCircle {
     fandom: CFWebcatalogCircleFandom,
     other_fandom: CFWebcatalogCircleFandom,
     rating: CFWebcatalogCircleRating,
-    sampleworks_images: CFWebcatalogCircleLink,
+    sampleworks_images: CFWebcatalogCircleLinks,
     day: CFWebcatalogCircleDay,
     SellsHandmadeCrafts: boolean,
     SellsMagazine: boolean,
