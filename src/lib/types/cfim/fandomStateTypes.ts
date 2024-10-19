@@ -1,4 +1,17 @@
-import { AttendanceIdentifiers, CommonMapDataInterface } from "./commonTypes";
+import { AttendanceIdentifiers, CommonMapDataInterface, DayKey, dayKeys, StringKeyIndex } from "./commonTypes";
+
+/**
+ * 
+ */
+type __CuratedFandomStands = {
+    [key in DayKey]?: StringKeyIndex<boolean | number> | String[]
+}
+
+export interface CuratedFandomStands extends __CuratedFandomStands {
+    //day1: StringKeyIndex<boolean | number> | String[];
+    //day2: StringKeyIndex<boolean | number> | String[];
+    name: string;
+}
 
 export interface FandomState extends CommonMapDataInterface {
     uuid: string;
@@ -26,16 +39,16 @@ export interface FandomState extends CommonMapDataInterface {
 
 
     /**
-     * Whether this fandom is curated by FDCT team
-     * (Fandom Data Collection Team)
+     * Whether this fandom is curated by IDGC research team
+     * (Institut Data Gembrot CF)
      * 
      * The implication is that all of the stands in
-     * curatedFDCTStandCodes are manually handpicked
+     * curatedIDGCStands are manually handpicked
      * with the highest accuracy possible provided
-     * by FDCT team.
+     * by IDGC team.
      */
-    curatedFDCT?: true;
-    curatedFDCTStandCodes?: string[];
+    curatedIDGC?: true;
+    curatedIDGCStands?: CuratedFandomStands;
 }
 
 export interface DataFandomsState {

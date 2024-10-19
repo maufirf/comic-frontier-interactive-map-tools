@@ -41,14 +41,14 @@ export function convertCFCatalogRaw(
     
     // Populate the fandomState using the data from catalog
     catalog.forEach((circle,i)=>{
-        processFandomString(
+        if (circle.fandom) processFandomString(
             circle.fandom.toLowerCase(),
             fandomSearchComposite,
             circle.user_id,
             null,
             findFandomConfig,
         );
-        processFandomString(
+        if (circle.other_fandom) processFandomString(
             circle.other_fandom.toLowerCase(),
             fandomSearchComposite,
             circle.user_id,

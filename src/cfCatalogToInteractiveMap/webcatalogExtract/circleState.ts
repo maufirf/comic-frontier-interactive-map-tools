@@ -60,7 +60,7 @@ export const convertDataToInstance = (data:CFWebcatalogCircle):CircleState => ({
     id: +data.id,
     uuid: data.user_id,
     displayName: data.name,
-    fandoms: [data.fandom,data.other_fandom],
+    fandoms: [data.fandom?data.fandom:"-",data.other_fandom?data.other_fandom:"-"],
     standAttendanceCodes: dissectCodeToDayAttendance(data.circle_code),
     fandomUUIDs: [],
 })

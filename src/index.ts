@@ -8,15 +8,17 @@ import { convertCFCatalogRaw } from './script/convertCFCatalogRaw';
 
 //CF16
 //const fandomSeed:FandomState[] = [];
-//CF18
+//CF18, CF19
 import fandomSeed from "@/src/res/seed/fandomStatesSeed.json";
+import { ensure } from './lib/helper/type';
 
 // Instatiate the catalog
 //CF17
 //const dataJSONAbsolutePath:string = path.resolve(__dirname,"./res/raw/cf17rawCatalogueData.json");
-//CF18
-const dataJSONAbsolutePath:string = path.resolve(__dirname,"./res/raw/cf18_catalog_raw_20240429_uuidfix.json");
+//CF18, CF19
+const dataJSONAbsolutePath:string = path.resolve(__dirname,"./res/raw/cf19_catalog_raw_20241019_uuidfix.json");
 const catalog:CFWebcatalogCircle[] = parseJSONFile(dataJSONAbsolutePath) as CFWebcatalogCircle[];
+console.log(`Raw webcatalog JSON Data has ${catalog.length} entries`);
 
 // Populate fandomStates from seeds (curated fandoms)
 const fandomStatesSeed:FandomState[] = fandomSeed.map((fandomState)=>{
@@ -50,7 +52,7 @@ const findFandomConfig:FindFandomConfig = {
 
     // these config only relevant if levensthteinSearch===true
         // The minimum amount of characters a string can be qualified to use levenshtein search
-        levenshteinMinChar: 12,
+        levenshteinMinChar: 8,
         // The maximum levenshtein distance for a string to be deemed "close enough"
         levenshteinMaxDiff: 2,
         // Whether to enable levenshtein search on finding groups (abbreviations, common typo, namealikes)
@@ -61,7 +63,7 @@ const findFandomConfig:FindFandomConfig = {
 }
 
 const { circleStates, fandomStates, standStates } = convertCFCatalogRaw(
-    catalog,
+    ensure<CFWebcatalogCircle[]>(catalog),
     fandomSearchComposite,
     findFandomConfig,
 )
