@@ -11,7 +11,7 @@ export type CFWebcatalogCircleDay = "Both Days" | "SAT" | "SUN";
 export type CFWebCatalogCircleType = "Booth_B" | "Booth_A" | "4 Space(s)" | "2 Space(s)" | "1 Space(s)";
 
 export interface CFWebcatalogCircle {
-    id: string,
+    id: number|string,
     user_id: string,
     circle_code: string,
     name: string,
@@ -37,5 +37,5 @@ export interface CFWebcatalogCircle {
     SellsHandmadeCrafts: boolean,
     SellsMagazine: boolean,
     SellsPhotobookCosplay: boolean,
-    circleType: CFWebCatalogCircleType,
+    circleType?: CFWebCatalogCircleType,
 }

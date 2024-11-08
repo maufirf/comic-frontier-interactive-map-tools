@@ -9,15 +9,20 @@ import { convertCFCatalogRaw } from './script/convertCFCatalogRaw';
 //CF16
 //const fandomSeed:FandomState[] = [];
 //CF18, CF19
-import fandomSeed from "@/src/res/seed/fandomStatesSeed.json";
+//import fandomSeed from "@/src/res/seed/fandomStatesSeed.json";
+import __fandomSeed from "@/src/res/seed/contributorWorks/20241108/fandomStates_1730882896133.json" 
+import __catalog from "@/src/res/raw/cf19_catalog_raw_20241108_uuidfix.json";
 import { ensure } from './lib/helper/type';
+
+const fandomSeed = ensure<FandomState[]>(__fandomSeed as FandomState[]);
+const catalog = ensure<CFWebcatalogCircle[]>(__catalog as CFWebcatalogCircle[]);
 
 // Instatiate the catalog
 //CF17
 //const dataJSONAbsolutePath:string = path.resolve(__dirname,"./res/raw/cf17rawCatalogueData.json");
 //CF18, CF19
-const dataJSONAbsolutePath:string = path.resolve(__dirname,"./res/raw/cf19_catalog_raw_20241019_uuidfix.json");
-const catalog:CFWebcatalogCircle[] = parseJSONFile(dataJSONAbsolutePath) as CFWebcatalogCircle[];
+//const dataJSONAbsolutePath:string = path.resolve(__dirname,"./res/raw/cf19_catalog_raw_20241108_uuidfix.json");
+//const catalog:CFWebcatalogCircle[] = parseJSONFile(dataJSONAbsolutePath) as CFWebcatalogCircle[];
 console.log(`Raw webcatalog JSON Data has ${catalog.length} entries`);
 
 // Populate fandomStates from seeds (curated fandoms)
@@ -52,7 +57,7 @@ const findFandomConfig:FindFandomConfig = {
 
     // these config only relevant if levensthteinSearch===true
         // The minimum amount of characters a string can be qualified to use levenshtein search
-        levenshteinMinChar: 8,
+        levenshteinMinChar: 7,
         // The maximum levenshtein distance for a string to be deemed "close enough"
         levenshteinMaxDiff: 2,
         // Whether to enable levenshtein search on finding groups (abbreviations, common typo, namealikes)
@@ -68,7 +73,7 @@ const { circleStates, fandomStates, standStates } = convertCFCatalogRaw(
     findFandomConfig,
 )
 
-const outDir = path.resolve(__dirname,"../out");
+const outDir = path.resolve(__dirname,"../out/cf19_20241108");
 fs.writeFileSync(`${outDir}/circleStates.json`,JSON.stringify(circleStates,null,4));
 fs.writeFileSync(`${outDir}/fandomStates.json`,JSON.stringify(fandomStates,null,4));
 fs.writeFileSync(`${outDir}/standStates.json`,JSON.stringify(standStates,null,4));

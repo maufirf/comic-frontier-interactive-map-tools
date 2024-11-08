@@ -7,21 +7,20 @@
         "circleSellerUUIDs": [],
         "curatedCFIM": true
     },
-
-
-
-
     {
         "uuid": "6be08756-8199-4e36-86c2-9aa405a7e855",
         "code": "hoyoverse",
         "displayName": "Hoyoverse",
-        "namealikes": ["mihoyo","hoyo"],
+        "namealikes": [
+            "mihoyo",
+            "hoyo"
+        ],
         "circleSellerUUIDs": [],
         "subsetUUIDs": [
             "ae49757c-045b-4fe8-9d36-3c21ffde261d",
             "3b7fb58d-aa19-4132-8fc2-f21e4de719c6",
             "36384faa-0fba-4f89-80bb-e04f72f018e6",
-			"3caf54c2-5a71-4741-84db-68e4b9462e5c"
+            "02947fe7-6a09-4136-8aba-7240351c20bc"
         ],
         "curatedCFIM": true
     },
@@ -29,8 +28,13 @@
         "uuid": "ae49757c-045b-4fe8-9d36-3c21ffde261d",
         "code": "genshin_impact",
         "displayName": "Genshin Impact",
-        "abbreviation": ["gi"],
-        "namealikes": ["kikir impact","game kikir"],
+        "abbreviation": [
+            "gi"
+        ],
+        "namealikes": [
+            "kikir impact",
+            "game kikir"
+        ],
         "regexStr": "genshin\\s*(impact)?",
         "circleSellerUUIDs": [],
         "supersetUUIDs": [
@@ -42,7 +46,9 @@
         "uuid": "3b7fb58d-aa19-4132-8fc2-f21e4de719c6",
         "code": "honkai_star_rail",
         "displayName": "Honkai: Star Rail",
-        "abbreviation": ["hsr"],
+        "abbreviation": [
+            "hsr"
+        ],
         "regexStr": "(honkai)?\\s*:?\\s*star ?rail",
         "circleSellerUUIDs": [],
         "supersetUUIDs": [
@@ -54,7 +60,9 @@
         "uuid": "36384faa-0fba-4f89-80bb-e04f72f018e6",
         "code": "tears_of_themis",
         "displayName": "Tears of Themis",
-        "abbreviation": ["tot"],
+        "abbreviation": [
+            "tot"
+        ],
         "circleSellerUUIDs": [],
         "supersetUUIDs": [
             "6be08756-8199-4e36-86c2-9aa405a7e855"
@@ -65,7 +73,9 @@
         "uuid": "3caf54c2-5a71-4741-84db-68e4b9462e5c",
         "code": "honkai_impact_3rd",
         "displayName": "Honkai Impact 3rd",
-        "abbreviation": ["hi3"],
+        "abbreviation": [
+            "hi3"
+        ],
         "regexStr": "honkai\\s*(impact\\s*(3(rd)?)?)?",
         "circleSellerUUIDs": [],
         "supersetUUIDs": [
@@ -73,15 +83,13 @@
         ],
         "curatedCFIM": true
     },
-
-
-
-
     {
         "uuid": "2447ad84-3843-4dd2-b353-faf646dc59a3",
         "code": "arknights",
         "displayName": "Arknights",
-        "abbreviation": ["ak"],
+        "abbreviation": [
+            "ak"
+        ],
         "circleSellerUUIDs": [],
         "curatedCFIM": true
     },
@@ -89,7 +97,9 @@
         "uuid": "8cec63d6-78d1-4238-99e6-362ddfc9611b",
         "code": "jojo_s_bizarre_adventure",
         "displayName": "Jojo's Bizarre Adventure",
-        "abbreviation": ["jjba"],
+        "abbreviation": [
+            "jjba"
+        ],
         "regexStr": "jojo('s)?\\s*(bizarre adventure)?",
         "circleSellerUUIDs": [],
         "curatedCFIM": true
@@ -98,7 +108,9 @@
         "uuid": "b9367dcd-2fc2-48d2-88e8-234c55135a4c",
         "code": "call_of_duty",
         "displayName": "Call of Duty",
-        "abbreviation": ["cod"],
+        "abbreviation": [
+            "cod"
+        ],
         "regexStr": "",
         "circleSellerUUIDs": [],
         "curatedCFIM": true
@@ -107,7 +119,13 @@
         "uuid": "fc0ca768-3fbc-4055-bc9e-f72ac11be5ba",
         "code": "final_fantasy",
         "displayName": "Final Fantasy",
-        "abbreviation": ["ff","ffxiv","ff14","ff16","ffxvi"],
+        "abbreviation": [
+            "ff",
+            "ffxiv",
+            "ff14",
+            "ff16",
+            "ffxvi"
+        ],
         "regexStr": "(ff|final fantasy)\\s*(xiv|xvi|\\d*)?",
         "circleSellerUUIDs": [],
         "curatedCFIM": true
@@ -116,8 +134,12 @@
         "uuid": "f5f8110f-6451-43da-8527-1186d0fe33d7",
         "code": "fate_grand_order",
         "displayName": "Fate/Grand Order",
-        "abbreviation": ["fgo","f/go","fate/go"],
-        "regexStr": "(fate|f)(\/|\\s*)(grand order|go)?",
+        "abbreviation": [
+            "fgo",
+            "f/go",
+            "fate/go"
+        ],
+        "regexStr": "(fate|f)(/|\\s*)(grand order|go)?",
         "circleSellerUUIDs": [],
         "curatedCFIM": true
     },
@@ -125,19 +147,19 @@
         "uuid": "06b6fda7-4cf6-4905-a2bb-686ff508344e",
         "code": "undertale",
         "displayName": "Undertale",
-        "namealikes": ["deltarune"],
+        "namealikes": [
+            "deltarune"
+        ],
         "circleSellerUUIDs": [],
         "curatedCFIM": true
     },
-
-
-
-
     {
         "uuid": "5a1411b1-c030-45eb-8460-6d03f7348334",
         "code": "virtual_youtuber",
         "displayName": "Virtual Youtuber",
-        "abbreviation": ["vtuber"],
+        "abbreviation": [
+            "vtuber"
+        ],
         "regexStr": "(indie|en|english|indonesia(n?))?\\s*v(irtual)?\\s*(you)?tubers?\\s*(indonesia(n?)|group|indie)?",
         "circleSellerUUIDs": [],
         "subsetUUIDs": [
@@ -151,7 +173,11 @@
         "uuid": "322186d9-9fb7-462a-b162-98e3b24ea370",
         "code": "hololive_production",
         "displayName": "Hololive Production",
-        "abbreviation": ["holo","hololive","holopro"],
+        "abbreviation": [
+            "holo",
+            "hololive",
+            "holopro"
+        ],
         "regexStr": "(holo)\\s*(live)?(\\s|-)*((en(glish)?|i(n)?d(onesia)?|j(a)?p(an)?)|((pro)?d?(uction)?)|[\\s&]*)*",
         "circleSellerUUIDs": [],
         "supersetUUIDs": [
@@ -173,12 +199,142 @@
         "uuid": "533032a5-7d15-4ec0-a7d7-1f4fc6379107",
         "code": "nijisanji",
         "displayName": "Nijisanji",
-        "abbreviation": ["niji","2434"],
+        "abbreviation": [
+            "niji",
+            "2434"
+        ],
         "regexStr": "niji(sanji)?[\\s-]*(((en(glish)?|i(n)?d(onesia)?|j(a)?p(an)?|k(o)?r(ea)?))|[\\s&]*)*",
         "circleSellerUUIDs": [],
         "supersetUUIDs": [
             "5a1411b1-c030-45eb-8460-6d03f7348334"
         ],
         "curatedCFIM": true
+    },
+    {
+        "uuid": "02947fe7-6a09-4136-8aba-7240351c20bc",
+        "displayName": "Zenless Zone Zero",
+        "circleSellerUUIDs": [],
+        "curatedCFIM": true,
+        "code": "zenless_zone_zero",
+        "abbreviation": [
+            "zzz"
+        ],
+        "namealikes": [
+            "ゼンレスゾーンゼロ",
+            "绝区零"
+        ],
+        "commonTypo": [
+            "zenles",
+            " zenless zero"
+        ],
+        "supersetUUIDs": [
+            "6be08756-8199-4e36-86c2-9aa405a7e855"
+        ]
+    },
+    {
+        "uuid": "4aecc96f-b304-40ef-916e-9595f18d02f7",
+        "displayName": "GODDESS OF VICTORY: NIKKE",
+        "circleSellerUUIDs": [],
+        "curatedCFIM": true,
+        "code": "goddess_of_victory_nikke",
+        "abbreviation": [
+            "nikke"
+        ],
+        "namealikes": [
+            "game pantat"
+        ],
+        "commonTypo": [
+            "nike"
+        ]
+    },
+    {
+        "uuid": "f398d760-584a-4d13-b431-2b565e8cdd74",
+        "displayName": "PSYCHO-PASS",
+        "circleSellerUUIDs": [],
+        "curatedCFIM": true,
+        "code": "psycho_pass",
+        "namealikes": [
+            "サイコパス",
+            "saikopasu"
+        ]
+    },
+    {
+        "uuid": "411e34fb-a7a6-4012-a1bf-34a99a8aee57",
+        "displayName": "Blue Archive",
+        "circleSellerUUIDs": [],
+        "curatedCFIM": true,
+        "code": "blue_archive",
+        "abbreviation": [
+            "ba",
+            "blueaka"
+        ],
+        "namealikes": [
+            "ブルーアーカイブ",
+            "arsip biru"
+        ],
+        "commonTypo": [
+            "blue arsip"
+        ]
+    },
+    {
+        "uuid": "ce2b8df6-f8f7-4450-8ca1-e1d59a4ed2f6",
+        "displayName": "HELLSING",
+        "circleSellerUUIDs": [],
+        "curatedCFIM": true,
+        "code": "hellsing",
+        "commonTypo": [
+            "helsing"
+        ]
+    },
+    {
+        "uuid": "f821d6c0-74b5-43c7-a54a-7ae3e8bff833",
+        "displayName": "Jujutsu Kaisen",
+        "circleSellerUUIDs": [],
+        "curatedCFIM": true,
+        "code": "jujutsu_kaisen",
+        "namealikes": [
+            "呪術廻戦"
+        ],
+        "abbreviation": [
+            "jjk"
+        ],
+        "commonTypo": [
+            "jujutsu",
+            "anime - jujutsu kaisen",
+            "jjujutsu kaisen",
+            "jujutsu kaizen"
+        ]
+    },
+    {
+        "uuid": "3d29dc9f-a31b-49e5-a910-244dce5e46c2",
+        "displayName": "Attack on Titan",
+        "circleSellerUUIDs": [],
+        "curatedCFIM": true,
+        "code": "attack_on_titan",
+        "abbreviation": [
+            "aot",
+            "snk"
+        ],
+        "namealikes": [
+            "shingeki no kyojin",
+            "進撃の巨人"
+        ]
+    },
+    {
+        "uuid": "e8b12325-1cca-445c-b17a-1c4a7d856b34",
+        "displayName": "ONE PIECE",
+        "circleSellerUUIDs": [],
+        "curatedCFIM": true,
+        "code": "one_piece",
+        "abbreviation": [
+            "op"
+        ],
+        "commonTypo": [
+            "onepiece",
+            "shounen: one piece"
+        ],
+        "namealikes": [
+            "wanpis"
+        ]
     }
 ]
