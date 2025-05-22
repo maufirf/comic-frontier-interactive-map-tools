@@ -11,7 +11,7 @@ import { convertCFCatalogRaw } from './script/convertCFCatalogRaw';
 //CF18, CF19
 //import fandomSeed from "@/src/res/seed/fandomStatesSeed.json";
 import __fandomSeed from "@/src/res/seed/contributorWorks/20241108/fandomStates_1730882896133.json" 
-import __catalog from "@/src/res/raw/cf19_catalog_raw_20241108_uuidfix.json";
+import __catalog from "@/src/res/raw/cf20_catalog_raw_20250510_uuidfix.json";
 import { ensure } from './lib/helper/type';
 
 const fandomSeed = ensure<FandomState[]>(__fandomSeed as FandomState[]);
@@ -73,7 +73,7 @@ const { circleStates, fandomStates, standStates } = convertCFCatalogRaw(
     findFandomConfig,
 )
 
-const outDir = path.resolve(__dirname,"../out/cf19_20241108");
+const outDir = path.resolve(__dirname,"../out/cf20_20250522");
 fs.writeFileSync(`${outDir}/circleStates.json`,JSON.stringify(circleStates,null,4));
 fs.writeFileSync(`${outDir}/fandomStates.json`,JSON.stringify(fandomStates,null,4));
 fs.writeFileSync(`${outDir}/standStates.json`,JSON.stringify(standStates,null,4));
